@@ -1,27 +1,20 @@
 'use client'
 
 import React from 'react'
+import './components.css'
 
 export default function Footer({ footerData }: { footerData?: any }) {
   if (!footerData) return null
 
   return (
-    <footer
-      style={{
-        width: '100%',
-        backgroundColor: '#0f172a',
-        color: '#fff',
-        padding: '2rem',
-        marginTop: '3rem',
-      }}
-    >
-      <div style={{ marginBottom: '1rem' }}>{footerData.text || '© 2025 NTT Data'}</div>
-      <nav style={{ display: 'flex', gap: '1.5rem' }}>
+    <footer className="footer">
+      <div className="footer__text">{footerData.text || '© 2025 NTT Data'}</div>
+      <nav className="footer__nav">
         {footerData.links?.map((link: any, idx: number) => {
           const href =
             link.type === 'internal' ? `/pages/${link.documentToLink?.slug}` : link.customURL
           return (
-            <a key={idx} href={href} style={{ color: '#fff', textDecoration: 'none' }}>
+            <a key={idx} href={href} className="footer__link">
               {link.label}
             </a>
           )

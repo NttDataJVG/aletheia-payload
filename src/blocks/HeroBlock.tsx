@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import './blocks.css'
 
 type HeroBlockProps = {
   heroTitle: string
@@ -17,32 +18,16 @@ const HeroBlock: React.FC<HeroBlockProps> = ({
   heroCtaText,
   heroCtaLink,
 }) => {
+  const backgroundStyle = heroBackgroundImage
+    ? { backgroundImage: `url(${heroBackgroundImage.url})` }
+    : {}
+
   return (
-    <section
-      style={{
-        padding: '4rem 2rem',
-        textAlign: 'center',
-        backgroundImage: heroBackgroundImage ? `url(${heroBackgroundImage.url})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        color: '#fff',
-      }}
-    >
+    <section className="hero-block" style={backgroundStyle}>
       <h1>{heroTitle}</h1>
       {heroSubtitle && <p>{heroSubtitle}</p>}
       {heroCtaText && heroCtaLink && (
-        <a
-          href={heroCtaLink}
-          style={{
-            display: 'inline-block',
-            marginTop: '1rem',
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            borderRadius: '5px',
-            textDecoration: 'none',
-          }}
-        >
+        <a href={heroCtaLink} className="hero-block__cta">
           {heroCtaText}
         </a>
       )}

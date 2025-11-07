@@ -1,0 +1,101 @@
+/* === BOTÓN === */
+.btn {
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+/* Variantes de color */
+.btn--blue {
+  background-color: #007bff;
+}
+.btn--blue:hover {
+  background-color: #0056b3;
+}
+
+.btn--red {
+  background-color: #dc3545;
+}
+.btn--red:hover {
+  background-color: #a71d2a;
+}
+
+.btn--green {
+  background-color: #28a745;
+}
+.btn--green:hover {
+  background-color: #1c7c31;
+}
+
+/* Tamaños */
+.btn--small {
+  padding: 0.5rem 1rem;
+}
+.btn--medium {
+  padding: 0.75rem 1.5rem;
+}
+.btn--large {
+  padding: 1rem 2rem;
+}
+
+/* Estado deshabilitado */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* === HEADER === */
+.header {
+  width: 100%;
+  background-color: #0f172a;
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.header__nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.header__link {
+  color: #fff;
+  text-decoration: none;
+}
+.header__link:hover {
+  text-decoration: underline;
+}
+
+/* === FOOTER === */
+.footer {
+  width: 100%;
+  background-color: #0f172a;
+  color: #fff;
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+.footer__text {
+  margin-bottom: 1rem;
+}
+
+.footer__nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer__link {
+  color: #fff;
+  text-decoration: none;
+}
+.footer__link:hover {
+  text-decoration: underline;
+}
