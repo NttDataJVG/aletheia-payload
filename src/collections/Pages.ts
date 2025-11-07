@@ -32,89 +32,127 @@ export const Pages: CollectionConfig = {
     },
 
     {
-      name: 'content',
-      type: 'blocks',
-      admin: {
-        description:
-          'Agrega bloques de texto, ejemplos de componentes u otros elementos de documentación',
-        // Aquí puedes usar admin.group o admin.tab si Payload lo soporta para pestañas
-      },
-      blocks: [
-        // Bloque Hero
+      type: 'tabs',
+      tabs: [
         {
-          slug: 'hero',
-          labels: { singular: 'Hero', plural: 'Héroes' },
+          name: 'heroTab',
+          label: 'Hero',
           fields: [
             {
-              name: 'heroTitle',
-              type: 'text',
-              required: true,
-              admin: { description: 'Título principal del Hero' },
+              name: 'heroType',
+              type: 'select',
+              options: [
+                { label: 'Ninguno', value: 'none' },
+                { label: 'Low impact', value: 'low' },
+                { label: 'Medium impact', value: 'medium' },
+                { label: 'High impact', value: 'high' },
+              ],
+              defaultValue: 'medium',
+              admin: { description: 'Define el estilo visual del Hero' },
             },
             {
-              name: 'heroSubtitle',
-              type: 'text',
-              admin: { description: 'Subtítulo opcional del Hero' },
-            },
-            {
-              name: 'heroBackgroundImage',
-              type: 'upload',
-              relationTo: 'media',
-              admin: { description: 'Imagen de fondo del Hero' },
-            },
-            {
-              name: 'heroCtaText',
-              type: 'text',
-              admin: { description: 'Texto del botón de llamada a la acción' },
-            },
-            {
-              name: 'heroCtaLink',
-              type: 'text',
-              admin: { description: 'URL del botón de llamada a la acción' },
+              name: 'heroContent',
+              type: 'richText',
+              admin: {
+                description:
+                  'Texto enriquecido del Hero (puede incluir negritas, enlaces, listas, etc.)',
+              },
             },
           ],
         },
-
-        // Bloque Content
         {
-          slug: 'text',
-          labels: { singular: 'Texto', plural: 'Textos' },
+          name: 'contentTab',
+          label: 'Content',
           fields: [
             {
-              name: 'content',
-              type: 'textarea',
-              required: true,
-              admin: { description: 'Texto explicativo o descripción general' },
-            },
-          ],
-        },
-
-        // Bloque Ejemplo de Componente
-        {
-          slug: 'component_example',
-          labels: { singular: 'Ejemplo de componente', plural: 'Ejemplos de componente' },
-          fields: [
-            {
-              name: 'title',
-              type: 'text',
-              required: true,
-              admin: { description: 'Título formal del componente' },
-            },
-            {
-              name: 'component',
-              type: 'relationship',
-              relationTo: 'components',
-              required: true,
-            },
-            {
-              name: 'text',
-              type: 'text',
-              admin: { description: 'Texto opcional para el botón u otros componentes' },
-            },
-            {
-              name: 'text_example',
-              type: 'text',
-              admin: { description: 'Texto de ejemplo para el botón' },
+              name: 'contentBlocks',
+              type: 'blocks',
+              admin: {
+                description:
+                  'Agrega bloques de texto, ejemplos de componentes u otros elementos de documentación',
+              },
+              blocks: [
+                {
+                  slug: 'text',
+                  labels: { singular: 'Texto', plural: 'Textos' },
+                  fields: [
+                    {
+                      name: 'content',
+                      type: 'textarea',
+                      required: true,
+                      admin: { description: 'Texto explicativo o descripción general' },
+                    },
+                  ],
+                },
+                {
+                  slug: 'component_example',
+                  labels: { singular: 'Ejemplo de componente', plural: 'Ejemplos de componente' },
+                  fields: [
+                    {
+                      name: 'title',
+                      type: 'text',
+                      required: true,
+                      admin: { description: 'Título formal del componente' },
+                    },
+                    {
+                      name: 'component',
+                      type: 'relationship',
+                      relationTo: 'components',
+                      required: true,
+                    },
+                    {
+                      name: 'text',
+                      type: 'text',
+                      admin: { description: 'Texto opcional para el botón u otros componentes' },
+                    },
+                    {
+                      name: 'text_example',
+                      type: 'text',
+                      admin: { description: 'Texto de ejemplo para el botón' },
+                    },
+                  ],
+                },
+                {
+                  slug: 'props_table',
+                  labels: { singular: 'Tabla de Props', plural: 'Tablas de Props' },
+                  fields: [
+                    {
+                      name: 'props',
+                      type: 'array',
+                      label: 'Props',
+                      fields: [
+                        {
+                          name: 'propName',
+                          type: 'text',
+                          required: true,
+                          admin: { description: 'Nombre de la prop' },
+                        },
+                        {
+                          name: 'type',
+                          type: 'text',
+                          required: true,
+                          admin: { description: 'Tipo de la prop (string, boolean, number, etc.)' },
+                        },
+                        {
+                          name: 'required',
+                          type: 'checkbox',
+                          admin: { description: '¿Es obligatoria la prop?' },
+                        },
+                        {
+                          name: 'description',
+                          type: 'textarea',
+                          admin: { description: 'Descripción de la prop' },
+                        },
+                        {
+                          name: 'defaultValue',
+                          type: 'text',
+                          admin: { description: 'Valor por defecto si aplica' },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },

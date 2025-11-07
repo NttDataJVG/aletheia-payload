@@ -90,8 +90,14 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    header: Header;
+    footer: Footer;
+  };
+  globalsSelect: {
+    header: HeaderSelect<false> | HeaderSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -181,65 +187,96 @@ export interface Page {
    * Identificador opcional para la URL (ej: button, input, typography...)
    */
   slug?: string | null;
-  /**
-   * Agrega bloques de texto, ejemplos de componentes u otros elementos de documentación
-   */
-  content?:
-    | (
-        | {
-            /**
-             * Título principal del Hero
-             */
-            heroTitle: string;
-            /**
-             * Subtítulo opcional del Hero
-             */
-            heroSubtitle?: string | null;
-            /**
-             * Imagen de fondo del Hero
-             */
-            heroBackgroundImage?: (number | null) | Media;
-            /**
-             * Texto del botón de llamada a la acción
-             */
-            heroCtaText?: string | null;
-            /**
-             * URL del botón de llamada a la acción
-             */
-            heroCtaLink?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | {
-            /**
-             * Texto explicativo o descripción general
-             */
-            content: string;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'text';
-          }
-        | {
-            /**
-             * Título formal del componente
-             */
-            title: string;
-            component: number | Component;
-            /**
-             * Texto opcional para el botón u otros componentes
-             */
-            text?: string | null;
-            /**
-             * Texto de ejemplo para el botón
-             */
-            text_example?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'component_example';
-          }
-      )[]
-    | null;
+  heroTab?: {
+    /**
+     * Define el estilo visual del Hero
+     */
+    heroType?: ('none' | 'low' | 'medium' | 'high') | null;
+    /**
+     * Texto enriquecido del Hero (puede incluir negritas, enlaces, listas, etc.)
+     */
+    heroContent?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  contentTab?: {
+    /**
+     * Agrega bloques de texto, ejemplos de componentes u otros elementos de documentación
+     */
+    contentBlocks?:
+      | (
+          | {
+              /**
+               * Texto explicativo o descripción general
+               */
+              content: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'text';
+            }
+          | {
+              /**
+               * Título formal del componente
+               */
+              title: string;
+              component: number | Component;
+              /**
+               * Texto opcional para el botón u otros componentes
+               */
+              text?: string | null;
+              /**
+               * Texto de ejemplo para el botón
+               */
+              text_example?: string | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'component_example';
+            }
+          | {
+              props?:
+                | {
+                    /**
+                     * Nombre de la prop
+                     */
+                    propName: string;
+                    /**
+                     * Tipo de la prop (string, boolean, number, etc.)
+                     */
+                    type: string;
+                    /**
+                     * ¿Es obligatoria la prop?
+                     */
+                    required?: boolean | null;
+                    /**
+                     * Descripción de la prop
+                     */
+                    description?: string | null;
+                    /**
+                     * Valor por defecto si aplica
+                     */
+                    defaultValue?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'props_table';
+            }
+        )[]
+      | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -399,36 +436,51 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   slug?: T;
-  content?:
+  heroTab?:
     | T
     | {
-        hero?:
+        heroType?: T;
+        heroContent?: T;
+      };
+  contentTab?:
+    | T
+    | {
+        contentBlocks?:
           | T
           | {
-              heroTitle?: T;
-              heroSubtitle?: T;
-              heroBackgroundImage?: T;
-              heroCtaText?: T;
-              heroCtaLink?: T;
-              id?: T;
-              blockName?: T;
-            };
-        text?:
-          | T
-          | {
-              content?: T;
-              id?: T;
-              blockName?: T;
-            };
-        component_example?:
-          | T
-          | {
-              title?: T;
-              component?: T;
-              text?: T;
-              text_example?: T;
-              id?: T;
-              blockName?: T;
+              text?:
+                | T
+                | {
+                    content?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              component_example?:
+                | T
+                | {
+                    title?: T;
+                    component?: T;
+                    text?: T;
+                    text_example?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              props_table?:
+                | T
+                | {
+                    props?:
+                      | T
+                      | {
+                          propName?: T;
+                          type?: T;
+                          required?: T;
+                          description?: T;
+                          defaultValue?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
             };
       };
   updatedAt?: T;
@@ -485,6 +537,104 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: number;
+  navigationItems?:
+    | {
+        /**
+         * Texto que aparecerá en el link del Header
+         */
+        label: string;
+        linkType: 'internal' | 'custom';
+        /**
+         * Selecciona la página interna a la que enlaza
+         */
+        internalLink?: (number | null) | Page;
+        /**
+         * Introduce la URL externa a la que enlaza
+         */
+        customURL?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  /**
+   * Texto del footer (ej: copyright)
+   */
+  text?: string | null;
+  links?:
+    | {
+        /**
+         * Nombre del link
+         */
+        label: string;
+        /**
+         * Tipo de link
+         */
+        type?: ('internal' | 'custom') | null;
+        /**
+         * Si es Internal, a qué página apunta
+         */
+        documentToLink?: (number | null) | Page;
+        /**
+         * Si es Custom, URL completa
+         */
+        customURL?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  navigationItems?:
+    | T
+    | {
+        label?: T;
+        linkType?: T;
+        internalLink?: T;
+        customURL?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  text?: T;
+  links?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        documentToLink?: T;
+        customURL?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
