@@ -6,7 +6,11 @@ export const Pages: CollectionConfig = {
 
   admin: {
     useAsTitle: 'title',
-    preview: () => `${process.env.PAYLOAD_PUBLIC_FRONTEND_URL || 'http://localhost:3000'}`,
+    preview: (doc) => {
+      const base = process.env.PAYLOAD_PUBLIC_FRONTEND_URL || 'http://localhost:3000'
+      const path = doc?.slug ? `/${doc.slug}` : ''
+      return `${base}${path}`
+    },
   },
 
   fields: [
