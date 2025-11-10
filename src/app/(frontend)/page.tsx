@@ -1,7 +1,7 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
-import RenderBlocks from './RenderBlocks'
+import RenderBlocks from '@/blocks/RenderBlock'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import './styles.css'
