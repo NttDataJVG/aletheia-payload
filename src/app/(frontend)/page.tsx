@@ -4,21 +4,34 @@ import config from '@/payload.config'
 import RenderBlocks from '@/blocks/RenderBlock'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { notFound } from 'next/navigation'
 import './styles.css'
 
-export default async function HomePage() {
+type PageParams = {
+  slug?: string[]
+}
+
+export default async function Page({ params }: { params: PageParams }) {
   const payload = await getPayload({ config })
 
-  const { docs } = await payload.find({
-    collection: 'pages',
-    limit: 1,
-    sort: '-createdAt',
-  })
-  const page = docs[0]
-  const headerGlobal = await payload.findGlobal({ slug: 'header' })
-  const FooterGlobal = await payload.findGlobal({ slug: 'footer' })
+  // Construimos el fullSlug a partir de la URL
+  const slugArray = params.slug || []
+  const slug = slugArray.join('/') // ej: 'home/components'
 
-  if (!page) return <p>No hay páginas creadas todavía</p>
+  // Buscamos la página correspondiente usando fullSlug
+  const result = await payload.find({
+    collection: 'pages',
+    where: { fullSlug: { equals: slug } },
+    limit: 1,
+  })
+
+  const page = result.docs[0]
+
+  if (!page) notFound() // 404 si no existe
+
+  // Globales
+  const headerGlobal = await payload.findGlobal({ slug: 'header' })
+  const footerGlobal = await payload.findGlobal({ slug: 'footer' })
 
   const hero = page.heroTab || {}
   const heroType = hero.heroType || 'none'
@@ -36,9 +49,9 @@ export default async function HomePage() {
               <h1 className="page-hero__title">{page.title}</h1>
               {page.description && <p className="page-hero__description">{page.description}</p>}
 
-              {page.heroTab?.heroContent && (
+              {hero.heroContent && (
                 <div className="page-hero__content">
-                  {page.heroTab.heroContent.root?.children?.map((block: any, index: number) => {
+                  {hero.heroContent.root?.children?.map((block: any, index: number) => {
                     switch (block.type) {
                       case 'paragraph':
                         return <p key={index}>{block.children.map((c: any) => c.text).join('')}</p>
@@ -90,7 +103,7 @@ export default async function HomePage() {
         </section>
       </main>
 
-      <Footer footerData={FooterGlobal} />
+      <Footer footerData={footerGlobal} />
     </div>
   )
 }

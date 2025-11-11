@@ -99,3 +99,13 @@
 .footer__link:hover {
   text-decoration: underline;
 }
+.header__brand {
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.header__brand:hover {
+  text-decoration: underline;
+}
+

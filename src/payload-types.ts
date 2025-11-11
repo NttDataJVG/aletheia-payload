@@ -187,6 +187,11 @@ export interface Page {
    * Identificador opcional para la URL (ej: button, input, typography...)
    */
   slug?: string | null;
+  fullSlug?: string | null;
+  /**
+   * Página padre (opcional, para crear jerarquías tipo /componentes/button)
+   */
+  parent?: (number | null) | Page;
   heroTab?: {
     /**
      * Define el estilo visual del Hero
@@ -274,6 +279,24 @@ export interface Page {
               blockName?: string | null;
               blockType: 'props_table';
             }
+          | {
+              links?:
+                | {
+                    /**
+                     * Texto del enlace (lo que se mostrará en pantalla)
+                     */
+                    label: string;
+                    /**
+                     * Página a la que apunta este enlace
+                     */
+                    page: number | Page;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'links';
+            }
         )[]
       | null;
   };
@@ -297,7 +320,7 @@ export interface Component {
   /**
    * Selecciona el archivo del componente en src/components
    */
-  componentFile: 'Button' | 'Card' | 'Input';
+  componentFile: 'BlueButton' | 'RedButton' | 'GreenButton' | 'Card' | 'Input';
   /**
    * Imagen de vista previa del componente
    */
@@ -436,6 +459,8 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   slug?: T;
+  fullSlug?: T;
+  parent?: T;
   heroTab?:
     | T
     | {
@@ -476,6 +501,19 @@ export interface PagesSelect<T extends boolean = true> {
                           required?: T;
                           description?: T;
                           defaultValue?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
+              links?:
+                | T
+                | {
+                    links?:
+                      | T
+                      | {
+                          label?: T;
+                          page?: T;
                           id?: T;
                         };
                     id?: T;

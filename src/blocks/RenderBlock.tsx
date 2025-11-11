@@ -3,6 +3,7 @@ import React from 'react'
 import TextBlock from './TextBlock'
 import ComponentExampleBlock from './ComponentExampleBlock'
 import PropsTableBlock from './PropsTableBlock'
+import LinksBlock from './LinksBlock'
 
 export default function RenderBlocks({ content }: { content: any[] }) {
   if (!content) return null
@@ -19,6 +20,9 @@ export default function RenderBlocks({ content }: { content: any[] }) {
 
           case 'props_table':
             return <PropsTableBlock key={index} propsList={block.props} />
+
+          case 'links':
+            return <LinksBlock key={index} links={block.links} />
 
           default:
             return null

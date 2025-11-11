@@ -1,7 +1,8 @@
+// Button.tsx (componente base)
 import React from 'react'
 import './components.css'
 
-type ButtonProps = {
+export type ButtonProps = {
   text: string
   onClick?: () => void
   color?: 'blue' | 'red' | 'green'

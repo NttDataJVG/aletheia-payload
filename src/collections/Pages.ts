@@ -34,7 +34,21 @@ export const Pages: CollectionConfig = {
         description: 'Identificador opcional para la URL (ej: button, input, typography...)',
       },
     },
-
+    {
+      name: 'fullSlug',
+      type: 'text',
+      unique: true,
+      admin: { hidden: true }, // se genera automáticamente con un hook
+    },
+    {
+      name: 'parent',
+      type: 'relationship',
+      relationTo: 'pages',
+      required: false,
+      admin: {
+        description: 'Página padre (opcional, para crear jerarquías tipo /componentes/button)',
+      },
+    },
     {
       type: 'tabs',
       tabs: [
@@ -156,6 +170,34 @@ export const Pages: CollectionConfig = {
                     },
                   ],
                 },
+                {
+                  slug: 'links',
+                  labels: { singular: 'Lista de enlaces', plural: 'Listas de enlaces' },
+                  fields: [
+                    {
+                      name: 'links',
+                      type: 'array',
+                      label: 'Enlaces',
+                      fields: [
+                        {
+                          name: 'label',
+                          type: 'text',
+                          required: true,
+                          admin: {
+                            description: 'Texto del enlace (lo que se mostrará en pantalla)',
+                          },
+                        },
+                        {
+                          name: 'page',
+                          type: 'relationship',
+                          relationTo: 'pages',
+                          required: true,
+                          admin: { description: 'Página a la que apunta este enlace' },
+                        },
+                      ],
+                    },
+                  ],
+                },
               ],
             },
           ],
@@ -163,4 +205,32 @@ export const Pages: CollectionConfig = {
       ],
     },
   ],
+
+  hooks: {
+    beforeValidate: [
+      async ({ data, req }) => {
+        if (!data) return data
+
+        const payload = req.payload
+        const pageData = data as { slug?: string; parent?: string; fullSlug?: string }
+
+        let parentSlug = ''
+
+        if (pageData.parent) {
+          // payload.findByID espera 3 argumentos genéricos, pero podemos forzarlo con 'any'
+          const parent: any = await payload.findByID({ collection: 'pages', id: pageData.parent })
+
+          parentSlug = parent?.fullSlug || parent?.slug || ''
+        }
+
+        pageData.fullSlug = pageData.slug
+          ? parentSlug
+            ? `${parentSlug}/${pageData.slug}`
+            : pageData.slug
+          : undefined
+
+        return pageData
+      },
+    ],
+  },
 }

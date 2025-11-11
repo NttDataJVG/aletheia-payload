@@ -1,11 +1,18 @@
 'use client'
 import React from 'react'
 import Button from '@/components/Button'
+import { BlueButton } from '@/components/BlueButton'
+import { RedButton } from '@/components/RedButton'
+import { GreenButton } from '@/components/GreenButton'
 import './blocks.css'
 
+// Mapa de componentes disponibles
 const componentsMap: Record<string, React.FC<any>> = {
   Button,
-  // Puedes agregar más componentes aquí
+  BlueButton,
+  RedButton,
+  GreenButton,
+  // puedes agregar más componentes si los creas (Card, Input, etc.)
 }
 
 export default function ComponentExampleBlock({ block }: { block: any }) {
@@ -13,7 +20,11 @@ export default function ComponentExampleBlock({ block }: { block: any }) {
   const ComponentToRender = componentsMap[selectedComponent]
 
   if (!ComponentToRender) {
-    return <div className="block-error">No se encontró el componente: {selectedComponent}</div>
+    return (
+      <div className="block-error">
+        No se encontró el componente: <b>{selectedComponent}</b>
+      </div>
+    )
   }
 
   return (

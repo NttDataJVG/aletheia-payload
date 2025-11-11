@@ -26,7 +26,12 @@ export const Components: CollectionConfig = {
       type: 'select',
       required: true,
       options: [
-        { label: 'Button', value: 'Button' },
+        // Botones
+        { label: 'Button (Blue)', value: 'BlueButton' },
+        { label: 'Button (Red)', value: 'RedButton' },
+        { label: 'Button (Green)', value: 'GreenButton' },
+
+        // Otros componentes
         { label: 'Card', value: 'Card' },
         { label: 'Input', value: 'Input' },
       ],
