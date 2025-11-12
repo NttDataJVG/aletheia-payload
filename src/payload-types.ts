@@ -236,15 +236,27 @@ export interface Page {
                * Título formal del componente
                */
               title: string;
-              component: number | Component;
               /**
-               * Texto opcional para el botón u otros componentes
+               * Texto global opcional para todos los componentes
                */
               text?: string | null;
-              /**
-               * Texto de ejemplo para el botón
-               */
-              text_example?: string | null;
+              components?:
+                | {
+                    /**
+                     * Selecciona el componente a mostrar
+                     */
+                    component: number | Component;
+                    /**
+                     * Texto de ejemplo específico de este componente
+                     */
+                    text_example?: string | null;
+                    /**
+                     * Color del botón si aplica
+                     */
+                    color?: ('blue' | 'red' | 'green') | null;
+                    id?: string | null;
+                  }[]
+                | null;
               id?: string | null;
               blockName?: string | null;
               blockType: 'component_example';
@@ -484,9 +496,15 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     title?: T;
-                    component?: T;
                     text?: T;
-                    text_example?: T;
+                    components?:
+                      | T
+                      | {
+                          component?: T;
+                          text_example?: T;
+                          color?: T;
+                          id?: T;
+                        };
                     id?: T;
                     blockName?: T;
                   };

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import Button from '@/components/Button'
+// import Button from '@/components/Button'
 import { BlueButton } from '@/components/BlueButton'
 import { RedButton } from '@/components/RedButton'
 import { GreenButton } from '@/components/GreenButton'
@@ -8,7 +8,6 @@ import './blocks.css'
 
 // Mapa de componentes disponibles
 const componentsMap: Record<string, React.FC<any>> = {
-  Button,
   BlueButton,
   RedButton,
   GreenButton,
@@ -16,22 +15,26 @@ const componentsMap: Record<string, React.FC<any>> = {
 }
 
 export default function ComponentExampleBlock({ block }: { block: any }) {
-  const selectedComponent = block.component?.componentFile
-  const ComponentToRender = componentsMap[selectedComponent]
-
-  if (!ComponentToRender) {
-    return (
-      <div className="block-error">
-        No se encontró el componente: <b>{selectedComponent}</b>
-      </div>
-    )
-  }
-
   return (
     <div className="block-component-example">
-      <h3>{block.component?.name}</h3>
-      {block.component?.description && <p>{block.component.description}</p>}
-      <ComponentToRender text={block.text_example || 'Botón de ejemplo'} />
+      <h3>{block.title}</h3>
+      {block.text && <p>{block.text}</p>}
+
+      {/* Contenedor negro solo para los botones */}
+      <div className="components-black-container">
+        {block.components?.map((comp: any, idx: number) => {
+          const ComponentToRender = componentsMap[comp.component.componentFile]
+          if (!ComponentToRender) return <span key={idx}>Componente no encontrado</span>
+
+          return (
+            <ComponentToRender
+              key={idx}
+              text={comp.text_example || block.text || 'Ejemplo'}
+              color={comp.color}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }

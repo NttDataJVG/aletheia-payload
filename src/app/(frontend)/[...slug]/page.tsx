@@ -25,6 +25,12 @@ export default async function Page({ params }: { params: PageParams }) {
     limit: 1,
   })
 
+  const result2 = await payload.find({
+    collection: 'pages',
+  })
+
+  // console.log(result2)
+
   const page = result.docs[0]
   if (!page) notFound() // 404 si no existe
 
@@ -38,7 +44,7 @@ export default async function Page({ params }: { params: PageParams }) {
 
   return (
     <div>
-      <Header navigationItems={headerGlobal?.navigationItems || []} />
+      {/* <Header navigationItems={headerGlobal?.navigationItems || []} /> */}
 
       <main className="page-container">
         {/* ===== HERO ===== */}

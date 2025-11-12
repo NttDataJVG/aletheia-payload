@@ -87,3 +87,28 @@
 .block-props-table thead tr {
   background-color: #f3f4f6;
 }
+
+.block-component-example {
+  padding: 20px;
+}
+
+.block-component-example h3 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.block-component-example p {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Contenedor negro para botones */
+.components-black-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;        /* separación entre botones */
+  flex-wrap: wrap;   /* para múltiples filas si hay muchos botones */
+  background-color: #c2c2c2; /* fondo negro */
+  padding: 16px;
+  border-radius: 12px;
+}
