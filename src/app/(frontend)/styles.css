@@ -258,3 +258,32 @@ svg {
   background-color: #f3f4f6;
 }
 
+/* Layout de dos columnas */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 120px); /* deja sitio para header/footer */
+}
+
+/* Sidebar */
+.sidebar {
+  padding: 1rem;
+  border-right: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+}
+.sidebar__item + .sidebar__item {
+  margin-top: 0.5rem;
+}
+.sidebar__link {
+  text-decoration: none;
+}
+
+/* Contenido */
+.content {
+  padding: 2rem;
+}

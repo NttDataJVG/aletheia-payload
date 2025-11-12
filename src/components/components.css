@@ -58,7 +58,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 50px;
 }
 
 .header__nav {
@@ -80,7 +79,7 @@
   background-color: #0f172a;
   color: #fff;
   padding: 2rem;
-  margin-top: 3rem;
+  margin-top: 0rem;
 }
 
 .footer__text {
@@ -110,66 +109,229 @@
   text-decoration: underline;
 }
 
+/* Contenedor general */
 .sidebar {
-  width: 220px;
-  padding: 16px;
-  background-color: #1e1e1e; /* gris oscuro */
-  height: 100vh;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+  padding: 1rem;
+  border-right: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  background: #fff;
 }
 
-.sidebar__item {
-  margin-bottom: 12px;
+/* ----- Desktop (≥1024px): árbol vertical siempre abierto ----- */
+.sidebar__desktop { display: none; }
+.sidebar__tree,
+.sidebar__children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-
+.sidebar__item { margin: 4px 0; }
 .sidebar__link {
-  color: #fff;
+  display: inline-block;
+  padding: 6px 8px;
+  border-radius: 8px;
   text-decoration: none;
-  font-weight: 500;
+}
+.sidebar__item.is-active > .sidebar__link {
+  font-weight: 600;
+  background: rgba(0,0,0,0.06);
+}
+.sidebar__children {
+  margin-left: 16px;
+  border-left: 1px dashed #ddd;
+  padding-left: 10px;
+}
+
+/* ----- Mobile (<1024px): barra horizontal con pills ----- */
+.sidebar__mobile { display: block; }
+.sidebar__pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.pill {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e5e5;
+  background: #fafafa;
+  text-decoration: none;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.pill.is-active {
+  font-weight: 600;
+  border-color: #d0d0d0;
+  background: #f0f0f0;
+}
+
+/* Breakpoint: a partir de 1024px mostramos el árbol y ocultamos las pills */
+@media (min-width: 1024px) {
+  .sidebar__desktop { display: block; }
+  .sidebar__mobile { display: none; }
+}
+
+/* --- Shell general --- */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 120px); /* deja sitio a header/footer si los tienes altos */
+}
+.layout.no-sidebar {
+  grid-template-columns: 0 1fr;
+}
+@media (max-width: 1023px) {
+  .layout {
+    grid-template-columns: 1fr; /* el sidebar es fijo y se superpone */
+  }
+}
+
+/* --- Backdrop móvil --- */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  z-index: 80;
+}
+.sidebar-backdrop.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (min-width: 1024px) {
+  .sidebar-backdrop { display: none; }
+}
+
+/* --- Sidebar oscuro, deslizante --- */
+.sidebar-dark {
+  background: #111;      /* negro */
+  color: #fff;
+  border-right: 1px solid #1f1f1f;
+  width: 260px;
+  z-index: 90;
+  transition: transform 0.28s ease;
+}
+
+/* Escritorio: dentro del grid; lo “cerramos” moviéndolo fuera */
+@media (min-width: 1024px) {
+  .sidebar-dark {
+    position: relative;
+    transform: translateX(0);
+  }
+  .layout.no-sidebar .sidebar-dark {
+    transform: translateX(-100%);
+  }
+}
+
+/* Móvil: sidebar fijo que se desliza */
+@media (max-width: 1023px) {
+  .sidebar-dark {
+    position: fixed;
+    left: 0;
+    top: 0; /* si tu header es fijo y alto, cámbialo por top: 56px; */
+    height: 100vh;
+    transform: translateX(-100%);
+  }
+  .sidebar-dark.is-open {
+    transform: translateX(0);
+  }
+}
+
+/* Contenido interno del sidebar */
+.sidebar-inner {
+  padding: 12px 8px;
+  overflow: auto;
+  height: 100%;
+}
+
+/* Listado jerárquico */
+.vlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.vlist > li + li { margin-top: 4px; }
+
+.vlink {
   display: block;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #e9e9e9;
+}
+.vlink:hover {
+  background: #1a1a1a;
+}
+.vlink.is-active {
+  background: #2a2a2a;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px #333;
 }
 
-.sidebar__link:hover {
-  background-color: #333;
-}
-
+/* === HEADER === */
 .header {
   display: flex;
   align-items: center;
-  padding: 10px 16px;
-  background-color: #1e1e1e;
+  justify-content: space-between;
+  background: #111; /* combina con el sidebar oscuro */
   color: #fff;
+  padding: 0.6rem 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 56px;
 }
 
+/* Botón hamburguesa */
 .header__toggle {
-  margin-right: 16px;
-  padding: 6px 10px;
-  font-size: 18px;
-  cursor: pointer;
   background: none;
   border: none;
-  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+.header__toggle:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+/* Logo / marca */
 .header__brand {
-  font-weight: bold;
-  margin-right: auto;
-  text-decoration: none;
   color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
 }
 
+/* Navegación de enlaces */
 .header__nav {
   display: flex;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .header__link {
+  color: #ccc;
   text-decoration: none;
-  color: #fff;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
 .header__link:hover {
-  text-decoration: underline;
+  color: #fff;
 }
