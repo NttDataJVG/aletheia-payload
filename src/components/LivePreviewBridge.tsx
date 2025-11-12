@@ -2,17 +2,21 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { useLivePreview } from '@payloadcms/live-preview-react'
+import {
+  RefreshRouteOnSave as PayloadRefreshRouteOnSave, // 👈 alias para evitar conflictos
+} from '@payloadcms/live-preview-react'
 
-export default function LivePreviewBridge({ children }: { children: React.ReactNode }) {
+/**
+ * Bridge para Server-side Live Preview (Next App Router):
+ * - Escucha eventos del Admin (autosave/save/publish)
+ * - Llama a router.refresh() para rehidratar datos del servidor
+ */
+// ARREGLAR ESTO, QUE EN UN FUTURO SE USAR EL .env
+export default function LivePreviewBridge() {
   const router = useRouter()
+  const origin =
+    process.env.NEXT_PUBLIC_PAYLOAD_URL ??
+    (typeof window !== 'undefined' ? window.location.origin : '')
 
-  useLivePreview({
-    // si tu Payload y Next están en el mismo proyecto/origen, puedes omitir serverURL
-    // serverURL: process.env.NEXT_PUBLIC_PAYLOAD_URL,
-    depth: 1, // ajusta si necesitas relaciones más profundas
-    refresh: () => router.refresh(), // 🔑 vuelve a pedir datos al servidor
-  })
-
-  return <>{children}</>
+  return <PayloadRefreshRouteOnSave serverURL={origin} refresh={() => router.refresh()} />
 }

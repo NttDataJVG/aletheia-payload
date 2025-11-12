@@ -13,8 +13,9 @@ type PageParams = {
 
 export default async function Page({ params }: { params: PageParams }) {
   // En App Router, params ya viene resuelto; no hace falta await
-  const slugArray = params.slug || []
-  const fullSlug = slugArray.join('/') // p.ej. 'home/components'
+  const { slug = [] } = await params
+  // const slugArray = params.slug || []
+  const fullSlug = slug.join('/') // p.ej. 'home/components'
 
   const payload = await getPayload({ config })
 
@@ -33,7 +34,8 @@ export default async function Page({ params }: { params: PageParams }) {
   const contentBlocks = (page as any).contentTab?.contentBlocks || []
 
   return (
-    <LivePreviewBridge>
+    <div>
+      <LivePreviewBridge />
       <main className="page-container">
         {/* ===== HERO ===== */}
         {heroType !== 'none' && (
@@ -95,6 +97,6 @@ export default async function Page({ params }: { params: PageParams }) {
           )}
         </section>
       </main>
-    </LivePreviewBridge>
+    </div>
   )
 }
