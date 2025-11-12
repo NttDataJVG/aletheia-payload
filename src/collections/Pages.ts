@@ -8,8 +8,16 @@ export const Pages: CollectionConfig = {
     useAsTitle: 'title',
     preview: (doc) => {
       const base = process.env.PAYLOAD_PUBLIC_FRONTEND_URL || 'http://localhost:3000'
-      const path = doc?.slug ? `/${doc.slug}` : ''
+      const path = doc?.fullSlug ? `/${doc.fullSlug}` : doc?.slug ? `/${doc.slug}` : ''
       return `${base}${path}`
+    },
+    livePreview: {
+      // URL del front que se cargará en el iframe del admin
+      url: ({ data }) => {
+        const base = process.env.PAYLOAD_PUBLIC_FRONTEND_URL || 'http://localhost:3000'
+        const path = data?.fullSlug ? `/${data.fullSlug}` : '/'
+        return `${base}${path}`
+      },
     },
   },
 

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import './components.css'
 
+// Paginas que vienen de Payload
 type RawPage = {
   id: string
   title: string
@@ -12,6 +13,7 @@ type RawPage = {
   parent?: string | { id?: string } | null
 }
 
+// Como representar esas páginas en el sidebar
 type Node = {
   id: string
   title: string
@@ -20,6 +22,7 @@ type Node = {
   children: Node[]
 }
 
+// Limpiar los datos que vienen de Payload
 function normalize(pages: RawPage[]): Node[] {
   return pages.map((p) => {
     const parentId =
@@ -39,6 +42,7 @@ function normalize(pages: RawPage[]): Node[] {
   })
 }
 
+// Deducir las jerarquías automáticamente por el slug
 function inferParentsBySlug(nodes: Node[]) {
   const bySlug = new Map(nodes.map((n) => [n.fullSlug, n]))
   for (const n of nodes) {
@@ -50,6 +54,13 @@ function inferParentsBySlug(nodes: Node[]) {
   }
 }
 
+/* 
+Construir el arbol jerárquico completo:
+1. Nomrlaiza las páginas
+2. Usar map para conectar padres e hijos
+3. Si pagina no tiene padre, es raiz
+4. Ordena nodos alfabéticamente
+*/
 function buildTree(raw: RawPage[]): Node[] {
   const list = normalize(raw)
   inferParentsBySlug(list)
@@ -67,11 +78,13 @@ function buildTree(raw: RawPage[]): Node[] {
   return roots
 }
 
+// Coger la pagina actual
 function useActiveSlug() {
   const pathname = usePathname() || '/'
   return pathname.replace(/^\/+|\/+$/g, '')
 }
 
+// Renderizar arbol con estilos
 function DesktopTree({ tree, activeSlug }: { tree: Node[]; activeSlug: string }) {
   const Item = ({ node, depth }: { node: Node; depth: number }) => {
     const href = node.fullSlug ? `/${node.fullSlug}` : '/'
@@ -118,7 +131,6 @@ export default function Sidebar({
   const tree = React.useMemo(() => buildTree(pages || []), [pages])
   const activeSlug = useActiveSlug()
 
-  // Cierra en móvil al navegar
   const handleClick = () => {
     if (window.innerWidth < 1024) onNavigate?.()
   }

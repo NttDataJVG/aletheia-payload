@@ -13,35 +13,27 @@ type AppShellProps = {
 export default function AppShell({ navigationItems, pages, children }: AppShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false)
 
-  // En escritorio, ábrelo por defecto al cargar
-  React.useEffect(() => {
-    const onLoad = () => setIsSidebarOpen(window.innerWidth >= 1024)
-    onLoad()
-    // Opcional: si quieres que al redimensionar se adapte:
-    const onResize = () => {
-      if (window.innerWidth >= 1024) setIsSidebarOpen(true)
-    }
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
-
+  // Solo control básico de abrir/cerrar
   const toggleSidebar = () => setIsSidebarOpen((v) => !v)
   const closeSidebar = () => setIsSidebarOpen(false)
 
   return (
     <>
       <Header navigationItems={navigationItems} toggleSidebar={toggleSidebar} />
+
       <div className={`layout ${isSidebarOpen ? 'with-sidebar' : 'no-sidebar'}`}>
         <Sidebar pages={pages} isOpen={isSidebarOpen} onNavigate={closeSidebar} />
         <div className="content">{children}</div>
       </div>
 
-      {/* Backdrop móvil (tap para cerrar) */}
-      <button
-        className={`sidebar-backdrop ${isSidebarOpen ? 'is-visible' : ''}`}
-        aria-label="Cerrar menú"
-        onClick={closeSidebar}
-      />
+      {/* Fondo oscuro al abrir el sidebar */}
+      {isSidebarOpen && (
+        <button
+          className="sidebar-backdrop is-visible"
+          aria-label="Cerrar menú"
+          onClick={closeSidebar}
+        />
+      )}
     </>
   )
 }
