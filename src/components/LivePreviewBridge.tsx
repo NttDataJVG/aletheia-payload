@@ -3,7 +3,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import {
-  RefreshRouteOnSave as PayloadRefreshRouteOnSave, // 👈 alias para evitar conflictos
+  RefreshRouteOnSave as PayloadRefreshRouteOnSave, // alias para evitar conflictos
 } from '@payloadcms/live-preview-react'
 
 /**
@@ -11,7 +11,7 @@ import {
  * - Escucha eventos del Admin (autosave/save/publish)
  * - Llama a router.refresh() para rehidratar datos del servidor
  */
-// ARREGLAR ESTO, QUE EN UN FUTURO SE USAR EL .env
+
 export default function LivePreviewBridge() {
   const router = useRouter()
   const origin =

@@ -143,17 +143,6 @@ export const Pages: CollectionConfig = {
                           type: 'text',
                           admin: { description: 'Texto de ejemplo específico de este componente' },
                         },
-                        {
-                          name: 'color',
-                          type: 'select',
-                          options: [
-                            { label: 'Blue', value: 'blue' },
-                            { label: 'Red', value: 'red' },
-                            { label: 'Green', value: 'green' },
-                          ],
-                          defaultValue: 'blue',
-                          admin: { description: 'Color del botón si aplica' },
-                        },
                       ],
                     },
                   ],

@@ -11,7 +11,7 @@ type PageParams = {
   slug?: string[]
 }
 
-export default async function Page({ params }: { params: PageParams }) {
+export default async function Page({ params }: { params: Promise<PageParams> }) {
   // En App Router, params ya viene resuelto; no hace falta await
   const { slug = [] } = await params
   // const slugArray = params.slug || []

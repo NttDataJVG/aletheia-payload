@@ -250,10 +250,6 @@ export interface Page {
                      * Texto de ejemplo específico de este componente
                      */
                     text_example?: string | null;
-                    /**
-                     * Color del botón si aplica
-                     */
-                    color?: ('blue' | 'red' | 'green') | null;
                     id?: string | null;
                   }[]
                 | null;
@@ -502,7 +498,6 @@ export interface PagesSelect<T extends boolean = true> {
                       | {
                           component?: T;
                           text_example?: T;
-                          color?: T;
                           id?: T;
                         };
                     id?: T;
