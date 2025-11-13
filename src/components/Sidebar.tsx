@@ -11,6 +11,7 @@ type RawPage = {
   title: string
   fullSlug?: string
   parent?: string | { id?: string } | null
+  weight?: number | null
 }
 
 // Como representar esas páginas en el sidebar
@@ -19,6 +20,7 @@ type Node = {
   title: string
   fullSlug: string
   parentId: string | null
+  weight?: number
   children: Node[]
 }
 
@@ -32,11 +34,14 @@ function normalize(pages: RawPage[]): Node[] {
           ? ((p.parent as any).id ?? null)
           : null
 
+    const weight = typeof p.weight === 'number' ? p.weight : 0 // 👈 default 0
+
     return {
       id: p.id,
       title: p.title || '(sin título)',
       fullSlug: (p.fullSlug || '').replace(/^\/+|\/+$/g, ''),
       parentId,
+      weight,
       children: [],
     }
   })
@@ -71,9 +76,17 @@ function buildTree(raw: RawPage[]): Node[] {
     else roots.push(n)
   }
   const sortRec = (arr: Node[]) => {
-    arr.sort((a, b) => a.title.localeCompare(b.title, 'es'))
+    arr.sort((a, b) => {
+      const wa = a.weight ?? 0
+      const wb = b.weight ?? 0
+      console.log(a.weight)
+      console.log(b.weight)
+      if (wa !== wb) return wa - wb // primero por peso (menor = antes)
+      return a.title.localeCompare(b.title, 'es') // luego por título
+    })
     arr.forEach((ch) => sortRec(ch.children))
   }
+
   sortRec(roots)
   return roots
 }

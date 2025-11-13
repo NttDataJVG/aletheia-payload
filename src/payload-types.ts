@@ -192,6 +192,10 @@ export interface Page {
    * Página padre (opcional, para crear jerarquías tipo /componentes/button)
    */
   parent?: (number | null) | Page;
+  /**
+   * Peso / orden de la página. Valores más bajos aparecen primero.
+   */
+  weight?: number | null;
   heroTab?: {
     /**
      * Define el estilo visual del Hero
@@ -469,6 +473,7 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   fullSlug?: T;
   parent?: T;
+  weight?: T;
   heroTab?:
     | T
     | {

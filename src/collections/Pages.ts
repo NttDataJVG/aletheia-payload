@@ -58,6 +58,15 @@ export const Pages: CollectionConfig = {
       },
     },
     {
+      name: 'weight',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        description: 'Peso / orden de la página. Valores más bajos aparecen primero.',
+        step: 1, // incrementos de 1
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {

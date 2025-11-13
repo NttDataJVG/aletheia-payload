@@ -32,6 +32,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
       title: p.title,
       fullSlug: p.fullSlug || '',
       parent: p.parent || null,
+      weight: p.weight,
     })) || []
 
   return (
