@@ -309,6 +309,23 @@ export interface Page {
               blockName?: string | null;
               blockType: 'links';
             }
+          | {
+              /**
+               * Título opcional del bloque de código
+               */
+              title?: string | null;
+              /**
+               * Texto descriptivo opcional
+               */
+              text?: string | null;
+              /**
+               * Código a mostrar (se renderiza en un bloque con fondo negro)
+               */
+              code: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'code';
+            }
         )[]
       | null;
   };
@@ -534,6 +551,15 @@ export interface PagesSelect<T extends boolean = true> {
                           page?: T;
                           id?: T;
                         };
+                    id?: T;
+                    blockName?: T;
+                  };
+              code?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    code?: T;
                     id?: T;
                     blockName?: T;
                   };

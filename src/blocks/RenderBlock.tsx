@@ -4,6 +4,7 @@ import TextBlock from './TextBlock'
 import ComponentExampleBlock from './ComponentExampleBlock'
 import PropsTableBlock from './PropsTableBlock'
 import LinksBlock from './LinksBlock'
+import CodeBlock from './CodeBlock'
 
 export default function RenderBlocks({ content }: { content: any[] }) {
   if (!content) return null
@@ -23,6 +24,9 @@ export default function RenderBlocks({ content }: { content: any[] }) {
 
           case 'links':
             return <LinksBlock key={index} links={block.links} />
+
+          case 'code':
+            return <CodeBlock key={index} block={block} />
 
           default:
             return null

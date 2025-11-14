@@ -224,6 +224,32 @@ export const Pages: CollectionConfig = {
                     },
                   ],
                 },
+                {
+                  slug: 'code',
+                  labels: { singular: 'Bloque de código', plural: 'Bloques de código' },
+                  fields: [
+                    {
+                      name: 'title',
+                      type: 'text',
+                      required: false,
+                      admin: { description: 'Título opcional del bloque de código' },
+                    },
+                    {
+                      name: 'text',
+                      type: 'textarea',
+                      required: false,
+                      admin: { description: 'Texto descriptivo opcional' },
+                    },
+                    {
+                      name: 'code',
+                      type: 'textarea',
+                      required: true,
+                      admin: {
+                        description: 'Código a mostrar (se renderiza en un bloque con fondo negro)',
+                      },
+                    },
+                  ],
+                },
               ],
             },
           ],
