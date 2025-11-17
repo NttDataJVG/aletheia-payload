@@ -2,16 +2,13 @@
 import React from 'react'
 import './blocks.css'
 
-export default function CodeBlock({ block }: { block: any }) {
-  if (!block?.code) return null
+export default function CodeBlock({ code }: { code: string }) {
+  if (!code) return null
 
   return (
-    <div className="block-code">
-      {block.title && <h3>{block.title}</h3>}
-      {block.text && <p>{block.text}</p>}
-
-      <pre className="code-black-container">
-        <code>{block.code}</code>
+    <div className="code-block">
+      <pre className="code-block__pre">
+        <code>{code}</code>
       </pre>
     </div>
   )

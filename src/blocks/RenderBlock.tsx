@@ -26,7 +26,7 @@ export default function RenderBlocks({ content }: { content: any[] }) {
             return <LinksBlock key={index} links={block.links} />
 
           case 'code':
-            return <CodeBlock key={index} block={block} />
+            return <CodeBlock key={index} code={block.code} />
 
           default:
             return null
