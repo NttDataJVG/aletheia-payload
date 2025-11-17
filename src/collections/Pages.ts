@@ -157,6 +157,41 @@ export const Pages: CollectionConfig = {
                   ],
                 },
                 {
+                  slug: 'icon_example',
+                  labels: { singular: 'Ejemplo de iconos', plural: 'Ejemplos de iconos' },
+                  fields: [
+                    {
+                      name: 'title',
+                      type: 'text',
+                      required: true,
+                      admin: { description: 'Título del grupo de iconos (ej: Iconos de feedback)' },
+                    },
+                    {
+                      name: 'icons',
+                      type: 'array',
+                      label: 'Iconos',
+                      minRows: 1,
+                      fields: [
+                        {
+                          name: 'icon',
+                          type: 'relationship',
+                          relationTo: 'icons', // 👈 la colección que acabamos de crear
+                          required: true,
+                          admin: { description: 'Selecciona el icono que quieres mostrar' },
+                        },
+                        {
+                          name: 'usage',
+                          type: 'textarea',
+                          required: false,
+                          admin: {
+                            description: 'Texto explicando cómo y cuándo usar este icono concreto',
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
                   slug: 'props_table',
                   labels: { singular: 'Tabla de Props', plural: 'Tablas de Props' },
                   fields: [

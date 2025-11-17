@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Components } from './collections/Components'
+import { Icons } from './collections/Icons'
 
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
@@ -26,7 +27,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Pages, Components],
+  collections: [Users, Media, Pages, Components, Icons],
   globals: [Header, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

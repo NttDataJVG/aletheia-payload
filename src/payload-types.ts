@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     pages: Page;
     components: Component;
+    icons: Icon;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     components: ComponentsSelect<false> | ComponentsSelect<true>;
+    icons: IconsSelect<false> | IconsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -262,6 +264,28 @@ export interface Page {
               blockType: 'component_example';
             }
           | {
+              /**
+               * Título del grupo de iconos (ej: Iconos de feedback)
+               */
+              title: string;
+              icons?:
+                | {
+                    /**
+                     * Selecciona el icono que quieres mostrar
+                     */
+                    icon: number | Icon;
+                    /**
+                     * Texto explicando cómo y cuándo usar este icono concreto
+                     */
+                    usage?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'icon_example';
+            }
+          | {
               props?:
                 | {
                     /**
@@ -359,6 +383,32 @@ export interface Component {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "icons".
+ */
+export interface Icon {
+  id: number;
+  /**
+   * Nombre del icono (ej: icon-info, IconAlert, etc.)
+   */
+  name: string;
+  /**
+   * Descripción corta del icono (uso, contexto, etc.)
+   */
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -396,6 +446,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'components';
         value: number | Component;
+      } | null)
+    | ({
+        relationTo: 'icons';
+        value: number | Icon;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -525,6 +579,20 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                     blockName?: T;
                   };
+              icon_example?:
+                | T
+                | {
+                    title?: T;
+                    icons?:
+                      | T
+                      | {
+                          icon?: T;
+                          usage?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
               props_table?:
                 | T
                 | {
@@ -579,6 +647,25 @@ export interface ComponentsSelect<T extends boolean = true> {
   previewImage?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "icons_select".
+ */
+export interface IconsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

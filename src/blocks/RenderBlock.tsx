@@ -5,6 +5,7 @@ import ComponentExampleBlock from './ComponentExampleBlock'
 import PropsTableBlock from './PropsTableBlock'
 import LinksBlock from './LinksBlock'
 import CodeBlock from './CodeBlock'
+import IconExampleBlock from './IconExampleBlock'
 
 export default function RenderBlocks({ content }: { content: any[] }) {
   if (!content) return null
@@ -27,6 +28,9 @@ export default function RenderBlocks({ content }: { content: any[] }) {
 
           case 'code':
             return <CodeBlock key={index} code={block.code} />
+
+          case 'icon_example':
+            return <IconExampleBlock key={index} block={block} />
 
           default:
             return null
