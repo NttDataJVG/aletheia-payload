@@ -393,3 +393,37 @@
   font-size: 0.85rem;
   color: #6b7280;
 }
+
+.page-children {
+  margin-top: 2rem;
+}
+
+.page-children h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.page-children__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.page-children__load-more {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-load-more {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid #3b82f6;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+

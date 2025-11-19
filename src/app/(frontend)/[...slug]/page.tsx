@@ -5,7 +5,8 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import RenderBlocks from '@/blocks/RenderBlock'
 import LivePreviewBridge from '@/components/LivePreviewBridge'
-import Card from '@/components/Card/Card'
+import ChildrenSection from '@/components/ChildrenSection'
+
 import '../styles.css'
 
 type PageParams = {
@@ -42,6 +43,20 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
   })
 
   const childrenPages = childrenResult.docs as any[]
+
+  const childrenForClient = childrenPages.map((child) => {
+    const thumb = child.cardThumbnail
+    const thumbnailUrl =
+      thumb && typeof thumb === 'object' ? thumb.url : typeof thumb === 'string' ? thumb : null
+
+    return {
+      id: child.id,
+      title: child.title,
+      href: `/${child.fullSlug}`,
+      summary: child.cardSummary || child.description || '',
+      thumbnailUrl,
+    }
+  })
 
   const hero = (page as any).heroTab || {}
   const heroType = hero.heroType || 'none'
@@ -111,30 +126,7 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
           )}
         </section>
 
-        {/* ===== SUBPÁGINAS (CARDS AUTOMÁTICAS) ===== */}
-        <section className="page-children__grid">
-          {childrenPages.length > 0 && (
-            <section className="page-children">
-              <h2>Subpáginas</h2>
-              <div className="page-children__grid">
-                {childrenPages.map((child) => {
-                  const thumb = child.cardThumbnail
-                  const thumbnailUrl = thumb && typeof thumb === 'object' ? thumb.url : undefined
-
-                  return (
-                    <Card
-                      key={child.id}
-                      title={child.title}
-                      summary={child.cardSummary || child.description}
-                      href={`/${child.fullSlug}`}
-                      thumbnailUrl={thumbnailUrl}
-                    />
-                  )
-                })}
-              </div>
-            </section>
-          )}
-        </section>
+        {childrenForClient.length > 0 && <ChildrenSection items={childrenForClient} />}
       </main>
     </div>
   )
