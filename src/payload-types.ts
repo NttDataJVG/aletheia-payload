@@ -186,6 +186,14 @@ export interface Page {
    */
   description?: string | null;
   /**
+   * Imagen en miniatura que aparecerá en las cards (en la página padre)
+   */
+  cardThumbnail?: (number | null) | Media;
+  /**
+   * Resumen breve que se mostrará en la card (en la página padre)
+   */
+  cardSummary?: string | null;
+  /**
    * Identificador opcional para la URL (ej: button, input, typography...)
    */
   slug?: string | null;
@@ -265,6 +273,58 @@ export interface Page {
             }
           | {
               /**
+               * Título del bloque de ejemplos de botón
+               */
+              title: string;
+              /**
+               * Descripción general de estos botones
+               */
+              text?: string | null;
+              components?:
+                | {
+                    /**
+                     * Selecciona el componente de tipo botón a mostrar
+                     */
+                    component: number | Component;
+                    /**
+                     * Texto de ejemplo específico para este botón
+                     */
+                    text_example?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'button_example';
+            }
+          | {
+              /**
+               * Título del bloque de ejemplos de card
+               */
+              title: string;
+              /**
+               * Descripción general de estas cards
+               */
+              text?: string | null;
+              components?:
+                | {
+                    /**
+                     * Selecciona el componente de tipo card a mostrar
+                     */
+                    component: number | Component;
+                    /**
+                     * Texto o contenido de ejemplo para esta card
+                     */
+                    text_example?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'card_example';
+            }
+          | {
+              /**
                * Título del grupo de iconos (ej: Iconos de feedback)
                */
               title: string;
@@ -316,24 +376,6 @@ export interface Page {
               blockType: 'props_table';
             }
           | {
-              links?:
-                | {
-                    /**
-                     * Texto del enlace (lo que se mostrará en pantalla)
-                     */
-                    label: string;
-                    /**
-                     * Página a la que apunta este enlace
-                     */
-                    page: number | Page;
-                    id?: string | null;
-                  }[]
-                | null;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'links';
-            }
-          | {
               /**
                * Título opcional del bloque de código
                */
@@ -362,21 +404,13 @@ export interface Page {
  */
 export interface Component {
   id: number;
-  /**
-   * Nombre del componente (ej: Button)
-   */
   name: string;
-  /**
-   * Breve descripción del componente
-   */
   description: string;
   /**
-   * Selecciona el archivo del componente en src/components
+   * Tipo de componente dentro del design system (Button, Card, Input, ...)
    */
+  kind: 'button' | 'card' | 'input';
   componentFile: 'BlueButton' | 'RedButton' | 'GreenButton' | 'Card' | 'Input';
-  /**
-   * Imagen de vista previa del componente
-   */
   previewImage?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -541,6 +575,8 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  cardThumbnail?: T;
+  cardSummary?: T;
   slug?: T;
   fullSlug?: T;
   parent?: T;
@@ -565,6 +601,36 @@ export interface PagesSelect<T extends boolean = true> {
                     blockName?: T;
                   };
               component_example?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    components?:
+                      | T
+                      | {
+                          component?: T;
+                          text_example?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
+              button_example?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    components?:
+                      | T
+                      | {
+                          component?: T;
+                          text_example?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
+              card_example?:
                 | T
                 | {
                     title?: T;
@@ -609,19 +675,6 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                     blockName?: T;
                   };
-              links?:
-                | T
-                | {
-                    links?:
-                      | T
-                      | {
-                          label?: T;
-                          page?: T;
-                          id?: T;
-                        };
-                    id?: T;
-                    blockName?: T;
-                  };
               code?:
                 | T
                 | {
@@ -643,6 +696,7 @@ export interface PagesSelect<T extends boolean = true> {
 export interface ComponentsSelect<T extends boolean = true> {
   name?: T;
   description?: T;
+  kind?: T;
   componentFile?: T;
   previewImage?: T;
   updatedAt?: T;

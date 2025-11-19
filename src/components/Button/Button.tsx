@@ -1,6 +1,6 @@
 // Button.tsx (componente base)
 import React from 'react'
-import './components.css'
+import '../components.css'
 
 export type ButtonProps = {
   text: string

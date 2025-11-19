@@ -35,6 +35,23 @@ export const Pages: CollectionConfig = {
       admin: { description: 'Descripción breve de esta página o sección' },
     },
     {
+      name: 'cardThumbnail',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      admin: {
+        description: 'Imagen en miniatura que aparecerá en las cards (en la página padre)',
+      },
+    },
+    {
+      name: 'cardSummary',
+      type: 'textarea',
+      required: false,
+      admin: {
+        description: 'Resumen breve que se mostrará en la card (en la página padre)',
+      },
+    },
+    {
       name: 'slug',
       type: 'text',
       required: false,
@@ -157,6 +174,87 @@ export const Pages: CollectionConfig = {
                   ],
                 },
                 {
+                  slug: 'button_example',
+                  labels: { singular: 'Ejemplo de botón', plural: 'Ejemplos de botón' },
+                  fields: [
+                    {
+                      name: 'title',
+                      type: 'text',
+                      required: true,
+                      admin: { description: 'Título del bloque de ejemplos de botón' },
+                    },
+                    {
+                      name: 'text',
+                      type: 'text',
+                      admin: { description: 'Descripción general de estos botones' },
+                    },
+                    {
+                      name: 'components',
+                      type: 'array',
+                      label: 'Botones en línea',
+                      minRows: 1,
+                      fields: [
+                        {
+                          name: 'component',
+                          type: 'relationship',
+                          relationTo: 'components',
+                          required: true,
+                          filterOptions: {
+                            componentFile: {
+                              in: ['BlueButton', 'RedButton', 'GreenButton'], // 👈 SOLO botones
+                            },
+                          },
+                          admin: {
+                            description: 'Selecciona el componente de tipo botón a mostrar',
+                          },
+                        },
+                        {
+                          name: 'text_example',
+                          type: 'text',
+                          admin: { description: 'Texto de ejemplo específico para este botón' },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  slug: 'card_example',
+                  labels: { singular: 'Ejemplo de card', plural: 'Ejemplos de card' },
+                  fields: [
+                    {
+                      name: 'title',
+                      type: 'text',
+                      required: true,
+                      admin: { description: 'Título del bloque de ejemplos de card' },
+                    },
+                    {
+                      name: 'text',
+                      type: 'text',
+                      admin: { description: 'Descripción general de estas cards' },
+                    },
+                    {
+                      name: 'components',
+                      type: 'array',
+                      label: 'Cards en línea',
+                      minRows: 1,
+                      fields: [
+                        {
+                          name: 'component',
+                          type: 'relationship',
+                          relationTo: 'components',
+                          required: true,
+                          admin: { description: 'Selecciona el componente de tipo card a mostrar' },
+                        },
+                        {
+                          name: 'text_example',
+                          type: 'text',
+                          admin: { description: 'Texto o contenido de ejemplo para esta card' },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
                   slug: 'icon_example',
                   labels: { singular: 'Ejemplo de iconos', plural: 'Ejemplos de iconos' },
                   fields: [
@@ -175,7 +273,7 @@ export const Pages: CollectionConfig = {
                         {
                           name: 'icon',
                           type: 'relationship',
-                          relationTo: 'icons', // 👈 la colección que acabamos de crear
+                          relationTo: 'icons',
                           required: true,
                           admin: { description: 'Selecciona el icono que quieres mostrar' },
                         },
@@ -226,34 +324,6 @@ export const Pages: CollectionConfig = {
                           name: 'defaultValue',
                           type: 'text',
                           admin: { description: 'Valor por defecto si aplica' },
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  slug: 'links',
-                  labels: { singular: 'Lista de enlaces', plural: 'Listas de enlaces' },
-                  fields: [
-                    {
-                      name: 'links',
-                      type: 'array',
-                      label: 'Enlaces',
-                      fields: [
-                        {
-                          name: 'label',
-                          type: 'text',
-                          required: true,
-                          admin: {
-                            description: 'Texto del enlace (lo que se mostrará en pantalla)',
-                          },
-                        },
-                        {
-                          name: 'page',
-                          type: 'relationship',
-                          relationTo: 'pages',
-                          required: true,
-                          admin: { description: 'Página a la que apunta este enlace' },
                         },
                       ],
                     },

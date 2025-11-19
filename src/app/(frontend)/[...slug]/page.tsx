@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import RenderBlocks from '@/blocks/RenderBlock'
 import LivePreviewBridge from '@/components/LivePreviewBridge'
+import Card from '@/components/Card/Card'
 import '../styles.css'
 
 type PageParams = {
@@ -15,7 +16,7 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
   // En App Router, params ya viene resuelto; no hace falta await
   const { slug = [] } = await params
   // const slugArray = params.slug || []
-  const fullSlug = slug.join('/') // p.ej. 'home/components'
+  const fullSlug = slug.join('/') // p.e. 'home/components'
 
   const payload = await getPayload({ config })
 
@@ -28,6 +29,19 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
 
   const page = result.docs[0]
   if (!page) notFound()
+
+  const childrenResult = await payload.find({
+    collection: 'pages',
+    where: {
+      parent: {
+        equals: page.id,
+      },
+    },
+    sort: 'weight',
+    depth: 1, // para que cardThumbnail venga expandido con .url
+  })
+
+  const childrenPages = childrenResult.docs as any[]
 
   const hero = (page as any).heroTab || {}
   const heroType = hero.heroType || 'none'
@@ -94,6 +108,31 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
             <RenderBlocks content={contentBlocks} />
           ) : (
             <p>No hay contenido en esta página aún.</p>
+          )}
+        </section>
+
+        {/* ===== SUBPÁGINAS (CARDS AUTOMÁTICAS) ===== */}
+        <section className="page-children__grid">
+          {childrenPages.length > 0 && (
+            <section className="page-children">
+              <h2>Subpáginas</h2>
+              <div className="page-children__grid">
+                {childrenPages.map((child) => {
+                  const thumb = child.cardThumbnail
+                  const thumbnailUrl = thumb && typeof thumb === 'object' ? thumb.url : undefined
+
+                  return (
+                    <Card
+                      key={child.id}
+                      title={child.title}
+                      summary={child.cardSummary || child.description}
+                      href={`/${child.fullSlug}`}
+                      thumbnailUrl={thumbnailUrl}
+                    />
+                  )
+                })}
+              </div>
+            </section>
           )}
         </section>
       </main>

@@ -2,6 +2,8 @@
 import React from 'react'
 import TextBlock from './TextBlock'
 import ComponentExampleBlock from './ComponentExampleBlock'
+import ButtonExampleBlock from './ButtonExampleBlock'
+import CardExampleBlock from './CardExampleBlock'
 import PropsTableBlock from './PropsTableBlock'
 import LinksBlock from './LinksBlock'
 import CodeBlock from './CodeBlock'
@@ -19,6 +21,12 @@ export default function RenderBlocks({ content }: { content: any[] }) {
 
           case 'component_example':
             return <ComponentExampleBlock key={index} block={block} />
+
+          case 'button_example':
+            return <ButtonExampleBlock key={index} block={block} />
+
+          case 'card_example':
+            return <CardExampleBlock key={index} block={block} />
 
           case 'props_table':
             return <PropsTableBlock key={index} propsList={block.props} />

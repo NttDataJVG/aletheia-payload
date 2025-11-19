@@ -13,37 +13,41 @@ export const Components: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
-      admin: { description: 'Nombre del componente (ej: Button)' },
     },
     {
       name: 'description',
       type: 'textarea',
       required: true,
-      admin: { description: 'Breve descripción del componente' },
+    },
+    {
+      name: 'kind',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Button', value: 'button' },
+        { label: 'Card', value: 'card' },
+        { label: 'Input', value: 'input' },
+      ],
+      admin: {
+        description: 'Tipo de componente dentro del design system (Button, Card, Input, ...)',
+      },
     },
     {
       name: 'componentFile',
       type: 'select',
       required: true,
       options: [
-        // Botones
         { label: 'BlueButton.tsx', value: 'BlueButton' },
         { label: 'RedButton.tsx', value: 'RedButton' },
         { label: 'GreenButton.tsx', value: 'GreenButton' },
-
-        // Otros componentes
         { label: 'Card', value: 'Card' },
         { label: 'Input', value: 'Input' },
       ],
-      admin: { description: 'Selecciona el archivo del componente en src/components' },
     },
     {
       name: 'previewImage',
       type: 'upload',
       relationTo: 'media',
-      admin: {
-        description: 'Imagen de vista previa del componente',
-      },
     },
   ],
 }

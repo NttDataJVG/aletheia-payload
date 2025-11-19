@@ -1,30 +1,32 @@
 'use client'
 import React from 'react'
-// import Button from '@/components/Button'
 import { BlueButton } from '@/components/Button/BlueButton'
 import { RedButton } from '@/components/Button/RedButton'
 import { GreenButton } from '@/components/Button/GreenButton'
 import './blocks.css'
 
-// Mapa de componentes disponibles
-const componentsMap: Record<string, React.FC<any>> = {
+// Mapa de componentes SOLO de botones
+const buttonComponentsMap: Record<string, React.FC<any>> = {
   BlueButton,
   RedButton,
   GreenButton,
-  // puedes agregar más componentes si los creas (Card, Input, etc.)
+  // añade aquí más botones: PrimaryButton, GhostButton, etc.
 }
 
-export default function ComponentExampleBlock({ block }: { block: any }) {
+export default function ButtonExampleBlock({ block }: { block: any }) {
   return (
     <div className="block-component-example">
       <h3>{block.title}</h3>
       {block.text && <p>{block.text}</p>}
 
-      {/* Contenedor negro solo para los botones */}
       <div className="components-black-container">
         {block.components?.map((comp: any, idx: number) => {
-          const ComponentToRender = componentsMap[comp.component.componentFile]
-          if (!ComponentToRender) return <span key={idx}>Componente no encontrado</span>
+          const key = comp.component?.componentFile
+          const ComponentToRender = buttonComponentsMap[key]
+
+          if (!ComponentToRender) {
+            return <span key={idx}>Botón no encontrado ({key || 'sin componentFile'})</span>
+          }
 
           return (
             <ComponentToRender

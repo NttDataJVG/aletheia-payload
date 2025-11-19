@@ -34,7 +34,7 @@ function normalize(pages: RawPage[]): Node[] {
           ? ((p.parent as any).id ?? null)
           : null
 
-    const weight = typeof p.weight === 'number' ? p.weight : 0 // 👈 default 0
+    const weight = typeof p.weight === 'number' ? p.weight : 0
 
     return {
       id: p.id,
@@ -79,8 +79,8 @@ function buildTree(raw: RawPage[]): Node[] {
     arr.sort((a, b) => {
       const wa = a.weight ?? 0
       const wb = b.weight ?? 0
-      console.log(a.weight)
-      console.log(b.weight)
+      //   console.log(a.weight)
+      //   console.log(b.weight)
       if (wa !== wb) return wa - wb // primero por peso (menor = antes)
       return a.title.localeCompare(b.title, 'es') // luego por título
     })
