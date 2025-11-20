@@ -201,7 +201,7 @@ export const Pages: CollectionConfig = {
                           required: true,
                           filterOptions: {
                             componentFile: {
-                              in: ['BlueButton', 'RedButton', 'GreenButton'], // 👈 SOLO botones
+                              in: ['BlueButton', 'RedButton', 'GreenButton'],
                             },
                           },
                           admin: {

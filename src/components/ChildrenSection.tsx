@@ -1,7 +1,7 @@
 // src/components/ChildrenSection.tsx
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Card from './Card/Card'
 
 const PAGE_SIZE = 4
@@ -14,17 +14,16 @@ type ChildCard = {
   thumbnailUrl?: string | null
 }
 
-type Props = {
-  items: ChildCard[]
+type ChildrenSectionProps = {
+  items?: ChildCard[]
 }
 
-const ChildrenSection: React.FC<Props> = ({ items }) => {
+export function ChildrenSection({ items }: ChildrenSectionProps) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
-  // por si items viene mal
   const safeItems = items ?? []
 
-  // ⚠ De momento NO devolvemos null aquí, para ver qué pasa:
+  // Caso 1: items viene undefined/null (problema de datos o de llamada al componente)
   if (!items) {
     return (
       <section className="page-children">
@@ -33,6 +32,7 @@ const ChildrenSection: React.FC<Props> = ({ items }) => {
     )
   }
 
+  // Caso 2: viene un array vacío
   if (safeItems.length === 0) {
     return (
       <section className="page-children">

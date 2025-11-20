@@ -1,5 +1,3 @@
-// src/components/Card.tsx
-import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import '../components.css'
@@ -11,7 +9,7 @@ export type CardProps = {
   thumbnailUrl?: string | null
 }
 
-export const Card: React.FC<CardProps> = ({ title, summary, href, thumbnailUrl }) => {
+export function Card({ title, summary, href, thumbnailUrl }: CardProps) {
   return (
     <Link href={href} className="doc-card doc-card--horizontal">
       {thumbnailUrl && (
