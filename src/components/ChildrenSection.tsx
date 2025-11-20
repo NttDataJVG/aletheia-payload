@@ -23,7 +23,7 @@ export function ChildrenSection({ items }: ChildrenSectionProps) {
 
   const safeItems = items ?? []
 
-  // Caso 1: items viene undefined/null (problema de datos o de llamada al componente)
+  // Caso 1: items viene undefined/null (problema de datos o de llamada al mismo componente)
   if (!items) {
     return (
       <section className="page-children">
