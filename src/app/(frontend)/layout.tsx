@@ -21,7 +21,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   const pagesRes = await payload.find({
     collection: 'pages',
     limit: 200,
-    depth: 0, // respuesta ligera, subir depth para traer más campos
+    depth: 0, // respuesta ligera, subir depth para traer aún más campos
   })
   // console.log(pagesRes)
 
