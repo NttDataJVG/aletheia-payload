@@ -13,12 +13,11 @@ type AppShellProps = {
 export default function AppShell({ navigationItems, pages, children }: AppShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false)
 
-  // Solo control básico de abrir/cerrar
   const toggleSidebar = () => setIsSidebarOpen((v) => !v)
   const closeSidebar = () => setIsSidebarOpen(false)
 
   return (
-    <>
+    <div className="app-shell">
       <Header navigationItems={navigationItems} toggleSidebar={toggleSidebar} />
 
       <div className={`layout ${isSidebarOpen ? 'with-sidebar' : 'no-sidebar'}`}>
@@ -26,7 +25,6 @@ export default function AppShell({ navigationItems, pages, children }: AppShellP
         <div className="content">{children}</div>
       </div>
 
-      {/* Fondo oscuro al abrir el sidebar */}
       {isSidebarOpen && (
         <button
           className="sidebar-backdrop is-visible"
@@ -34,6 +32,6 @@ export default function AppShell({ navigationItems, pages, children }: AppShellP
           onClick={closeSidebar}
         />
       )}
-    </>
+    </div>
   )
 }

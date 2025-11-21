@@ -427,3 +427,27 @@
   cursor: pointer;
 }
 
+.app-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.layout {
+  flex: 1;
+  display: flex;
+}
+
+.layout .sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  max-height: 100vh; 
+  overflow-y: auto;   
+  border-right: 1px solid #eee;
+}
+
+.content {
+  flex: 1;
+  padding: 1.5rem;
+}
