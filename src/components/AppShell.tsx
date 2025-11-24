@@ -20,7 +20,7 @@ export default function AppShell({ navigationItems, pages, children }: AppShellP
     <div className="app-shell">
       <Header navigationItems={navigationItems} toggleSidebar={toggleSidebar} />
 
-      <div className={`layout ${isSidebarOpen ? 'with-sidebar' : 'no-sidebar'}`}>
+      <div className="layout">
         <Sidebar pages={pages} isOpen={isSidebarOpen} onNavigate={closeSidebar} />
         <div className="content">{children}</div>
       </div>

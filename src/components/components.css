@@ -48,7 +48,7 @@
 }
 
 /* === HEADER === */
-.header {
+/* .header {
   width: 100%;
   background-color: #0f172a;
   color: #fff;
@@ -58,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
+} */
 
 .header__nav {
   display: flex;
@@ -222,30 +222,26 @@
   transition: transform 0.28s ease;
 }
 
-/* Escritorio: dentro del grid; lo “cerramos” moviéndolo fuera */
+/* Escritorio: sidebar fijo con scroll propio debajo del header */
 @media (min-width: 1024px) {
   .sidebar-dark {
-    position: relative;
+    width: 260px;
+    flex-shrink: 0;
+
+    position: sticky;
+    top: 56px; /* misma altura que .header */
+    height: calc(100vh - 56px); /* todo lo que queda bajo el header */
+    overflow-y: auto;
+
     transform: translateX(0);
+    border-right: 1px solid #eee;
   }
+
   .layout.no-sidebar .sidebar-dark {
     transform: translateX(-100%);
   }
 }
 
-/* Móvil: sidebar fijo que se desliza */
-@media (max-width: 1023px) {
-  .sidebar-dark {
-    position: fixed;
-    left: 0;
-    top: 0; /* si tu header es fijo y alto, cámbialo por top: 56px; */
-    height: 100vh;
-    transform: translateX(-100%);
-  }
-  .sidebar-dark.is-open {
-    transform: translateX(0);
-  }
-}
 
 /* Contenido interno del sidebar */
 .sidebar-inner {
@@ -284,7 +280,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #111; /* combina con el sidebar oscuro */
+  background: #111; 
   color: #fff;
   padding: 0.6rem 1.2rem;
   position: sticky;
@@ -454,4 +450,32 @@
 
 .scrollable-sidebar {
   width: 260px;
+}
+
+/* .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1000;
+} */
+
+.shell-body {
+  display: flex;
+  height: calc(100vh - 60px); 
+  margin-top: 60px;     
+}
+
+.shell-body .sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  border-right: 1px solid #eee;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
 }
