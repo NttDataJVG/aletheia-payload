@@ -84,6 +84,27 @@ export const Pages: CollectionConfig = {
       },
     },
     {
+      name: 'lastUpdated',
+      type: 'date',
+      label: 'Fecha de última modificación',
+      admin: {
+        description: 'Fecha en la que se actualizó por última vez el contenido de esta página.',
+        date: {
+          pickerAppearance: 'dayAndTime',
+          displayFormat: 'dd/MM/yyyy HH:mm',
+          timeFormat: 'HH:mm',
+        },
+      },
+    },
+    {
+      name: 'lastReview',
+      label: 'Fecha de última revisión',
+      type: 'date',
+      hooks: {
+        beforeChange: [() => new Date().toISOString()],
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {
