@@ -203,12 +203,12 @@ svg {
   font-style: italic;
 }
 
-.page-hero__content {
+/* .page-hero__content {
   margin-top: 1.5rem;
   padding: 1rem;
   border-radius: 0.5rem;
   background-color: rgba(255, 255, 255, 0.05);
-}
+} */
 
 /* === CONTENT BLOCKS === */
 .block-text {
@@ -449,4 +449,71 @@ body {
   .home-btn2 {
     width: 100%;
   }
+}
+
+
+/* Tipografía base del rich text en el hero */
+.page-hero__content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #829ee1; /* gris azulado suave */
+}
+
+/* Párrafos con separación */
+.page-hero__content p {
+  margin-bottom: 0.75rem;
+}
+
+/* Titulares dentro del hero */
+.page-hero__content h1,
+.page-hero__content h2,
+.page-hero__content h3 {
+  font-weight: 600;
+  color: #829ee1;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-hero__content h1 {
+  font-size: 1.5rem;
+}
+
+.page-hero__content h2 {
+  font-size: 1.25rem;
+}
+
+.page-hero__content h3 {
+  font-size: 1.1rem;
+}
+
+/* Listas */
+.page-hero__content ul,
+.page-hero__content ol {
+  margin: 0.5rem 0 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.page-hero__content ul {
+  list-style: disc;
+}
+
+.page-hero__content ol {
+  list-style: decimal;
+}
+
+/* Separación entre elementos de lista */
+.page-hero__content li + li {
+  margin-top: 0.25rem;
+}
+
+/* Enlaces */
+.page-hero__content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.page-hero__content a:hover {
+  color: #1d4ed8;
 }
