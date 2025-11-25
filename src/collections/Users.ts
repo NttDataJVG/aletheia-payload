@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  auth: true, // activa login, logout, y email+password automáticos
+  auth: true, // email + password automáticos
 
   admin: {
     useAsTitle: 'email',
@@ -14,10 +14,10 @@ export const Users: CollectionConfig = {
 
     // QUIÉN PUEDE LEER USERS
     read: ({ req }) => {
-      // Solo admin puede ver todos los usuarios
+      // Admin ve a todos
       if (req.user?.role === 'admin') return true
 
-      // Un usuario normal solo puede leer SU propio documento
+      // Resto solo se ve a sí mismo
       return { id: { equals: req.user?.id } }
     },
 
@@ -26,10 +26,10 @@ export const Users: CollectionConfig = {
 
     // QUIÉN PUEDE ACTUALIZAR USERS
     update: ({ req, id }) => {
-      // Admin puede actualizar cualquiera
+      // Admin puede actualizar a cualquiera
       if (req.user?.role === 'admin') return true
 
-      // Un usuario normal solo puede actualizar su propia información
+      // Cualquier usuario puede editar SOLO su propio perfil
       return req.user?.id === id
     },
 
@@ -37,18 +37,34 @@ export const Users: CollectionConfig = {
     delete: ({ req }) => req.user?.role === 'admin',
   },
 
+  hooks: {
+    beforeChange: [
+      ({ data, originalDoc, req }) => {
+        // Seguridad extra tema si NO eres admin, NO puedes cambiarte el role
+        if (originalDoc && req.user?.role !== 'admin') {
+          data.role = originalDoc.role
+        }
+        return data
+      },
+    ],
+  },
+
   fields: [
     {
       name: 'role',
       type: 'select',
       required: true,
-      defaultValue: 'editor', // más seguro, evita que nazcan admins sin querer
+      defaultValue: 'editor', // así no nacen admins sin querer
       options: [
         { label: 'Admin', value: 'admin' },
         { label: 'Editor', value: 'editor' },
       ],
       admin: {
         position: 'sidebar',
+      },
+      access: {
+        // Solo un admin puede cambiar el role desde el panel
+        update: ({ req }) => req.user?.role === 'admin',
       },
     },
   ],
