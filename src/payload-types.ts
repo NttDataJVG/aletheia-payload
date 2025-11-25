@@ -206,6 +206,11 @@ export interface Page {
    * Peso / orden de la página. Valores más bajos aparecen primero.
    */
   weight?: number | null;
+  /**
+   * Fecha en la que se actualizó por última vez el contenido de esta página.
+   */
+  lastUpdated?: string | null;
+  lastReview?: string | null;
   heroTab?: {
     /**
      * Define el estilo visual del Hero
@@ -581,6 +586,8 @@ export interface PagesSelect<T extends boolean = true> {
   fullSlug?: T;
   parent?: T;
   weight?: T;
+  lastUpdated?: T;
+  lastReview?: T;
   heroTab?:
     | T
     | {
