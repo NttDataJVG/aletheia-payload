@@ -15,21 +15,21 @@ type PageParams = {
   slug?: string[]
 }
 
-// // función para formatear fecha+hora en peque
+// función para formatear fecha+hora en peque
 
-// const formatDateTime = (value?: string | Date) => {
-//   if (!value) return null
-//   const d = new Date(value)
-//   if (Number.isNaN(d.getTime())) return null
+const formatDateTime = (value?: string | Date) => {
+  if (!value) return null
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return null
 
-//   return d.toLocaleString('es-ES', {
-//     day: '2-digit',
-//     month: '2-digit',
-//     year: 'numeric',
-//     hour: '2-digit',
-//     minute: '2-digit',
-//   })
-// }
+  return d.toLocaleString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
 
 export default async function Page({ params }: { params: Promise<PageParams> }) {
   const { slug = [] } = await params
@@ -74,21 +74,21 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
   const heroType = hero.heroType || 'none'
   const contentBlocks = (page as any).contentTab?.contentBlocks || []
 
-  // const lastUpdated = formatDateTime((page as any).lastUpdated)
-  // const lastReview = formatDateTime((page as any).lastReview)
+  const lastUpdated = formatDateTime((page as any).lastUpdated)
+  const lastReview = formatDateTime((page as any).lastReview)
 
   return (
     <div>
       <LivePreviewBridge />
 
-      {/* {(lastUpdated || lastReview) && (
+      {(lastUpdated || lastReview) && (
         <div className="page-meta">
           {lastUpdated && (
             <span className="page-meta__item">Última modificación: {lastUpdated}</span>
           )}
           {lastReview && <span className="page-meta__item">Última revisión: {lastReview}</span>}
         </div>
-      )} */}
+      )}
 
       <main className="page-container">
         {/* HERO */}
