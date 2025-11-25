@@ -317,3 +317,23 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+/* Metadatos de página (fechas) encima del hero */
+.page-meta {
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.page-meta__item {
+  white-space: nowrap;
+}
+
+/* separador tipo "·" entre items */
+.page-meta__item:not(:last-child)::after {
+  content: '·';
+  margin-left: 0.5rem;
+}
