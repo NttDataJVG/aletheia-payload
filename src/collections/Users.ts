@@ -13,40 +13,16 @@ export const Users: CollectionConfig = {
     admin: ({ req }) => req.user?.role === 'admin' || req.user?.role === 'editor',
 
     // QUIÉN PUEDE LEER USERS
-    read: ({ req }) => {
-      // Admin ve a todos
-      if (req.user?.role === 'admin') return true
-
-      // Resto solo se ve a sí mismo
-      return { id: { equals: req.user?.id } }
-    },
+    read: ({ req }) => req.user?.role === 'admin',
 
     // QUIÉN PUEDE CREAR USERS
     create: ({ req }) => req.user?.role === 'admin',
 
     // QUIÉN PUEDE ACTUALIZAR USERS
-    update: ({ req, id }) => {
-      // Admin puede actualizar a cualquiera
-      if (req.user?.role === 'admin') return true
-
-      // Cualquier usuario puede editar SOLO su propio perfil
-      return req.user?.id === id
-    },
+    update: ({ req }) => req.user?.role === 'admin',
 
     // QUIÉN PUEDE BORRAR USERS
     delete: ({ req }) => req.user?.role === 'admin',
-  },
-
-  hooks: {
-    beforeChange: [
-      ({ data, originalDoc, req }) => {
-        // Seguridad extra tema si NO eres admin, NO puedes cambiarte el role
-        if (originalDoc && req.user?.role !== 'admin') {
-          data.role = originalDoc.role
-        }
-        return data
-      },
-    ],
   },
 
   fields: [
@@ -61,10 +37,6 @@ export const Users: CollectionConfig = {
       ],
       admin: {
         position: 'sidebar',
-      },
-      access: {
-        // Solo un admin puede cambiar el role desde el panel
-        update: ({ req }) => req.user?.role === 'admin',
       },
     },
   ],
