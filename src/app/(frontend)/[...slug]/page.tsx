@@ -74,8 +74,6 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
   const heroType = hero.heroType || 'none'
   const contentBlocks = (page as any).contentTab?.contentBlocks || []
 
-  // console.log(JSON.stringify(hero.heroContent.root, null, 2))
-
   const lastUpdated = formatDateTime((page as any).lastUpdated)
   const lastReview = formatDateTime((page as any).lastReview)
 

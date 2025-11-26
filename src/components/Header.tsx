@@ -4,7 +4,6 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import './components.css'
-import { LogoutButton } from '@/components/LogOut'
 
 interface HeaderProps {
   navigationItems?: any[]
@@ -38,7 +37,6 @@ export default function Header({ navigationItems, toggleSidebar }: HeaderProps) 
           )
         })}
       </nav>
-      {/* <LogoutButton /> */}
     </header>
   )
 }
