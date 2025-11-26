@@ -203,12 +203,12 @@ svg {
   font-style: italic;
 }
 
-.page-hero__content {
+/* .page-hero__content {
   margin-top: 1.5rem;
   padding: 1rem;
   border-radius: 0.5rem;
   background-color: rgba(255, 255, 255, 0.05);
-}
+} */
 
 /* === CONTENT BLOCKS === */
 .block-text {
@@ -336,4 +336,184 @@ body {
 .page-meta__item:not(:last-child)::after {
   content: '·';
   margin-left: 0.5rem;
+}
+
+/* ========== HOME / LANDING ALETHEIA ========== */
+
+.home2 {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  background: radial-gradient(circle at top left, #e0f2ff, #f9fafb 50%, #eef2ff);
+}
+
+.home-hero22 {
+  max-width: 960px;
+  width: 100%;
+}
+
+.home-hero2__inner {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+.home-hero2__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+.home-hero2__title {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+}
+
+.home-hero2__subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #475569;
+  max-width: 40rem;
+  margin-bottom: 1.75rem;
+}
+
+.home-hero2__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Botones de la landing */
+.home-btn2 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.home-btn2--primary {
+  background: #2563eb;
+  color: #f9fafb;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+}
+
+.home-btn2--primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.45);
+}
+
+.home-btn2--ghost {
+  background: transparent;
+  color: #0f172a;
+  border-color: #cbd5f5;
+}
+
+.home-btn2--ghost:hover {
+  background: #e5edff;
+}
+
+.home-hero2__hint {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* Responsive pequeño */
+@media (max-width: 640px) {
+  .home-hero2__inner {
+    padding: 2rem 1.4rem;
+  }
+
+  .home-hero2__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-btn2 {
+    width: 100%;
+  }
+}
+
+
+/* Tipografía base del rich text en el hero */
+.page-hero__content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #829ee1; /* gris azulado suave */
+}
+
+/* Párrafos con separación */
+.page-hero__content p {
+  margin-bottom: 0.75rem;
+}
+
+/* Titulares dentro del hero */
+.page-hero__content h1,
+.page-hero__content h2,
+.page-hero__content h3 {
+  font-weight: 600;
+  color: #829ee1;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-hero__content h1 {
+  font-size: 1.5rem;
+}
+
+.page-hero__content h2 {
+  font-size: 1.25rem;
+}
+
+.page-hero__content h3 {
+  font-size: 1.1rem;
+}
+
+/* Listas */
+.page-hero__content ul,
+.page-hero__content ol {
+  margin: 0.5rem 0 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.page-hero__content ul {
+  list-style: disc;
+}
+
+.page-hero__content ol {
+  list-style: decimal;
+}
+
+/* Separación entre elementos de lista */
+.page-hero__content li + li {
+  margin-top: 0.25rem;
+}
+
+/* Enlaces */
+.page-hero__content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.page-hero__content a:hover {
+  color: #1d4ed8;
 }

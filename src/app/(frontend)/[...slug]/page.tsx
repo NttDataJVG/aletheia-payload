@@ -16,6 +16,7 @@ type PageParams = {
 }
 
 // función para formatear fecha+hora en peque
+
 const formatDateTime = (value?: string | Date) => {
   if (!value) return null
   const d = new Date(value)

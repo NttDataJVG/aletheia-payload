@@ -2,35 +2,69 @@ import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  auth: true, // email + password automáticos
+
   admin: {
     useAsTitle: 'email',
   },
-  auth: true, // activa login/logout y gestión básica
+
   access: {
+    // QUIÉN PUEDE ENTRAR AL ADMIN (/admin)
+    admin: ({ req }) => req.user?.role === 'admin' || req.user?.role === 'editor',
+
+    // QUIÉN PUEDE LEER USERS
     read: ({ req }) => {
-      // Cualquiera logueado puede leerse a sí mismo
-      if (req.user) return true
-      return false
+      // Admin ve a todos
+      if (req.user?.role === 'admin') return true
+
+      // Resto solo se ve a sí mismo
+      return { id: { equals: req.user?.id } }
     },
+
+    // QUIÉN PUEDE CREAR USERS
+    create: ({ req }) => req.user?.role === 'admin',
+
+    // QUIÉN PUEDE ACTUALIZAR USERS
     update: ({ req, id }) => {
-      // Solo el propio usuario o un admin puede actualizar
-      return req.user?.id === id || req.user?.role === 'admin'
+      // Admin puede actualizar a cualquiera
+      if (req.user?.role === 'admin') return true
+
+      // Cualquier usuario puede editar SOLO su propio perfil
+      return req.user?.id === id
     },
-    delete: ({ req }) => req.user?.role === 'cliente', // Solo admin borra usuarios
+
+    // QUIÉN PUEDE BORRAR USERS
+    delete: ({ req }) => req.user?.role === 'admin',
   },
+
+  hooks: {
+    beforeChange: [
+      ({ data, originalDoc, req }) => {
+        // Seguridad extra tema si NO eres admin, NO puedes cambiarte el role
+        if (originalDoc && req.user?.role !== 'admin') {
+          data.role = originalDoc.role
+        }
+        return data
+      },
+    ],
+  },
+
   fields: [
     {
       name: 'role',
       type: 'select',
       required: true,
-      defaultValue: 'cliente',
+      defaultValue: 'editor', // así no nacen admins sin querer
       options: [
         { label: 'Admin', value: 'admin' },
         { label: 'Editor', value: 'editor' },
-        { label: 'Cliente', value: 'cliente' },
       ],
       admin: {
         position: 'sidebar',
+      },
+      access: {
+        // Solo un admin puede cambiar el role desde el panel
+        update: ({ req }) => req.user?.role === 'admin',
       },
     },
   ],
